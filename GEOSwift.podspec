@@ -20,6 +20,8 @@ DESC
   s.osx.deployment_target = "10.10"
 
   s.source_files = "GEOSwift/*.{swift,h}"
+  s.osx.exclude_files = "GEOSwift/QuickLook.swift"
+
   s.dependency "geos", "3.5.0"
 
 end
