@@ -94,7 +94,7 @@ public typealias CoordinateDegrees = Double
             subclass = LinearRing.self
             
         case GEOS_POLYGON.rawValue:
-            subclass = Polygon.self
+            subclass = GeoPolygon.self
             
         case GEOS_MULTIPOINT.rawValue:
             subclass = MultiPoint.self

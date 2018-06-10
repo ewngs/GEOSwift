@@ -45,7 +45,7 @@ class MapKitTests: XCTestCase {
     func testCreateMKPolygonFromPolygon() {
         var result = false
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-        if let polygon = Geometry.create(WKT) as? Polygon,
+        if let polygon = Geometry.create(WKT) as? GeoPolygon,
             let _ = polygon.mapShape() as? MKPolygon {
                 result = true
         }

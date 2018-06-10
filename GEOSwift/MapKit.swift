@@ -65,13 +65,13 @@ extension Geometry : GEOSwiftMapKit {
                 count: coordinates.count)
             return polyline
             
-        case is Polygon:
-            var exteriorRingCoordinates = (self as! Polygon).exteriorRing.points.map({ (point: Coordinate) ->
+        case is GeoPolygon:
+            var exteriorRingCoordinates = (self as! GeoPolygon).exteriorRing.points.map({ (point: Coordinate) ->
                 CLLocationCoordinate2D in
                 return CLLocationCoordinate2DFromCoordinate(point)
             })
             
-            let interiorRings = (self as! Polygon).interiorRings.map({ (linearRing: LinearRing) ->
+            let interiorRings = (self as! GeoPolygon).interiorRings.map({ (linearRing: LinearRing) ->
                 MKPolygon in
                 return MKPolygonWithCoordinatesSequence(linearRing.points)
             })
@@ -85,7 +85,7 @@ extension Geometry : GEOSwiftMapKit {
         case let gc as GeometryCollection<LineString>:
             return MKShapesCollection(geometryCollection: gc)
 
-        case let gc as GeometryCollection<Polygon>:
+        case let gc as GeometryCollection<GeoPolygon>:
             return MKShapesCollection(geometryCollection: gc)
 
         default:

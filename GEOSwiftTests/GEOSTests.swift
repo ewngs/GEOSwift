@@ -53,8 +53,8 @@ class GEOSwiftTests: XCTestCase {
     func testCreatePolygonFromWKT() {
         var result = false
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-        if let polygon = Geometry.create(WKT) as? Polygon,
-            let polygon2 = Polygon(WKT: WKT){
+        if let polygon = Geometry.create(WKT) as? GeoPolygon,
+            let polygon2 = GeoPolygon(WKT: WKT){
             let exteriorRing = polygon.exteriorRing
             result = polygon.interiorRings.count == 1 && exteriorRing.points.count == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10 && polygon == polygon2
         }
@@ -63,14 +63,14 @@ class GEOSwiftTests: XCTestCase {
     
     func testCreateWKBFromPolygon() {
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-        guard let polygon = Polygon(WKT: WKT) else {
+        guard let polygon = GeoPolygon(WKT: WKT) else {
             XCTFail("Failed to create Polygon")
             return
         }
         let wkb = polygon.WKB
         XCTAssertNotNil(wkb)
         XCTAssertFalse(wkb!.isEmpty)
-        guard let polygon2 = Polygon(WKB: wkb!) else {
+        guard let polygon2 = GeoPolygon(WKB: wkb!) else {
             XCTFail("Failed to create Polygon from generated WKB")
             return
         }
@@ -85,7 +85,7 @@ class GEOSwiftTests: XCTestCase {
         
         if let lr = lr
         {
-            let polygon1 = Polygon(shell: lr, holes: nil)
+            let polygon1 = GeoPolygon(shell: lr, holes: nil)
             XCTAssertNotNil(polygon1, "Failed to create polygon from LinearRing")
         }
     }
@@ -148,7 +148,7 @@ class GEOSwiftTests: XCTestCase {
     
     func testNearestPoints() {
         let point = Geometry.create("POINT(45 9)") as! Waypoint
-        let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as! Polygon
+        let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as! GeoPolygon
         
         let arrNearestPoints = point.nearestPoints(polygon)
         
@@ -169,7 +169,7 @@ class GEOSwiftTests: XCTestCase {
                                     Coordinate(x: 1, y: 1),
                                     Coordinate(x: 0, y: 1),
                                     Coordinate(x: 0, y: 0)])!
-        let polygon = Polygon(shell: lr, holes: nil)!
+        let polygon = GeoPolygon(shell: lr, holes: nil)!
         XCTAssertEqual(1, polygon.area())
     }
     
